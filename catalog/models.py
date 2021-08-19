@@ -5,6 +5,7 @@ from django.db import models
 
 from django.urls import reverse  # To generate URLS by reversing URL patterns
 import uuid  # Required for unique book instances
+from django.utils import timezone
 
 class Tenant(models.Model):
     """Model representing a Tenant"""
@@ -77,6 +78,17 @@ class Lease(models.Model):
     def get_absolute_url(self):
             """Returns the url to access a particular book instance."""
             return reverse('lease-detail', args=[str(self.uuid)])
+
+class Daybook(models.Model):
+    transaction_id = models.UUIDField(primary_key=True, default=uuid.uuid4,
+                          help_text="Unique ID for each entry")
+    date = models.DateTimeField(default=timezone.now)
+    account = models.CharField(max_length=50)
+    type_choices = [('Db','Debit'),('Cr','Credit')]
+    type = models.CharField(max_length = 5, choices=type_choices)
+    amount = models.FloatField()
+    Note = models.CharField(max_length=50)
+
 
 class Genre(models.Model):
     """Model representing a book genre (e.g. Science Fiction, Non Fiction)."""

@@ -114,7 +114,7 @@ import datetime
 from django.contrib.auth.decorators import login_required, permission_required
 
 # from .forms import RenewBookForm
-from catalog.forms import RenewBookForm
+from catalog.forms import RenewBookForm, daybookForm
 
 
 @login_required
@@ -150,6 +150,19 @@ def renew_book_librarian(request, pk):
 
     return render(request, 'catalog/book_renew_librarian.html', context)
 
+def daybook_view(request):
+    context ={}
+  
+    # create object of form
+    form = daybookForm(request.POST or None, request.FILES or None)
+      
+    # check if form data is valid
+    if form.is_valid():
+        # save the form data to model
+        form.save()
+  
+    context['form']= form
+    return render(request, "catalog/daybook.html", context)
 
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.urls import reverse_lazy

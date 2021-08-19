@@ -1,9 +1,9 @@
+from catalog.models import Daybook
 from django.core.exceptions import ValidationError
 from django.utils.translation import ugettext_lazy as _
 import datetime  # for checking renewal date range.
 
 from django import forms
-
 
 class RenewBookForm(forms.Form):
     """Form for a librarian to renew books."""
@@ -23,3 +23,8 @@ class RenewBookForm(forms.Form):
 
         # Remember to always return the cleaned data.
         return data
+
+class daybookForm(forms.ModelForm):
+    class Meta:
+        model = Daybook
+        fields = ['date','account','type','amount','Note']

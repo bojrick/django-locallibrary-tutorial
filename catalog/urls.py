@@ -11,7 +11,7 @@ urlpatterns = [
     path('tenants/', views.TenantListView.as_view(), name='tenants'),
     path('tenants/<int:pk>', views.TenantDetailView.as_view(), name='tenant-detail'),
     path('lease/', views.LeaseListView.as_view(), name='lease'),
-    path('^lease/(?P<uuid>[\d\-]+)/$', views.LeaseDetailView.as_view(), name='lease-detail'),
+    path('lease/<uuid:pk>', views.LeaseDetailView.as_view(), name='lease-detail'),
     path('book/<int:pk>', views.BookDetailView.as_view(), name='book-detail'),
     path('authors/', views.AuthorListView.as_view(), name='authors'),
     path('author/<int:pk>',
@@ -28,6 +28,7 @@ urlpatterns += [
 # Add URLConf for librarian to renew a book.
 urlpatterns += [
     path('book/<uuid:pk>/renew/', views.renew_book_librarian, name='renew-book-librarian'),
+    path('daybook/', views.daybook_view, name='daybook'),
 ]
 
 
