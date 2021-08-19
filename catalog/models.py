@@ -1,9 +1,82 @@
 from django.db import models
+# from django.db.models.lookups import YearComparisonLookup
 
 # Create your models here.
 
 from django.urls import reverse  # To generate URLS by reversing URL patterns
+import uuid  # Required for unique book instances
 
+class Tenant(models.Model):
+    """Model representing a Tenant"""
+    firstName = models.CharField(max_length=50)
+    lastName = models.CharField(max_length=50)
+    PAN = models.CharField(max_length=10,unique=True)
+    aadhar = models.IntegerField(unique=True)
+    phone = models.IntegerField()
+    address = models.CharField(max_length=100)
+    active = models.BooleanField()
+    def get_absolute_url(self):
+            """Returns the url to access a particular book instance."""
+            return reverse('tenant-detail', args=[str(self.id)])
+    def __str__(self):
+        """String for representing the Model object (in Admin site etc.)"""
+        return self.firstName
+
+class Property(models.Model):
+    """Model Representing Properties"""
+    RSP = 'RSP'
+    DSP = 'DSP'
+    MRP = 'MRP'
+    ADP = 'ADP'
+    GDP = 'GDP'
+    KDP = 'KDP'
+    AKP = 'AKP'    
+    JRP = 'JRP'    
+    YRP = 'YRP'    
+    SVPHUF = 'SVPHUF'
+    RSPHUF = 'RSPHUF'
+    DSPHUF = 'DSPHUF'
+    possible_owners = [
+        (RSP, 'Rameshbhai'),
+        (MRP, 'Madhuben'),
+        (JRP, 'Jaykrushna'),
+        (YRP, 'Yash'),
+        (DSP, 'Dahyabhai'),
+        (ADP, 'Anandiben'),
+        (GDP, 'Ghanshyam'),
+        (KDP, 'Kamal'),
+        (AKP, 'Ankita'),
+        (SVPHUF, 'Somabhai HUF'),
+        (RSPHUF, 'Rameshbhai HUF'),
+        (DSPHUF, 'Dahyabhai HUF')
+    ]
+    property_no = models.CharField(max_length=6)
+    owner = models.CharField(max_length=6,choices=possible_owners,default=RSP)
+    area = models.FloatField()
+    light = models.IntegerField()
+    tax = models.CharField(max_length=12)
+    location = models.CharField(max_length=50)
+    active = models.BooleanField()
+    def get_absolute_url(self):
+            """Returns the url to access a particular book instance."""
+            return reverse('property-detail', args=[str(self.id)])
+
+    def __str__(self):
+            """String for representing the Model object (in Admin site etc.)"""
+            return self.property_no+" "+self.owner
+
+class Lease(models.Model):
+    uuid = models.UUIDField(primary_key=True, default=uuid.uuid4,
+                          help_text="Unique ID for lease")
+    start = models.DateField(help_text="Start date of the lease")
+    end = models.DateField(help_text="End date of the Lease")
+    rent = models.FloatField(help_text="Monthly Rent")
+    security = models.FloatField(help_text="Security Deposit one time payment at the start")
+    tenant = models.OneToOneField(Tenant, on_delete=models.RESTRICT)
+    property = models.OneToOneField(Property, on_delete=models.RESTRICT)
+    def get_absolute_url(self):
+            """Returns the url to access a particular book instance."""
+            return reverse('lease-detail', args=[str(self.uuid)])
 
 class Genre(models.Model):
     """Model representing a book genre (e.g. Science Fiction, Non Fiction)."""
@@ -15,7 +88,6 @@ class Genre(models.Model):
     def __str__(self):
         """String for representing the Model object (in Admin site etc.)"""
         return self.name
-
 
 class Language(models.Model):
     """Model representing a Language (e.g. English, French, Japanese, etc.)"""
@@ -60,9 +132,7 @@ class Book(models.Model):
         """String for representing the Model object."""
         return self.title
 
-
-import uuid  # Required for unique book instances
-from datetime import date
+from datetime import MAXYEAR, date
 
 from django.contrib.auth.models import User  # Required to assign User as a borrower
 

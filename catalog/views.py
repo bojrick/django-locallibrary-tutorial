@@ -2,7 +2,7 @@ from django.shortcuts import render
 
 # Create your views here.
 
-from .models import Book, Author, BookInstance, Genre
+from .models import Book, Author, BookInstance, Genre, Lease, Property, Tenant
 
 
 def index(request):
@@ -41,6 +41,32 @@ class BookDetailView(generic.DetailView):
     """Generic class-based detail view for a book."""
     model = Book
 
+class PropertyListView(generic.ListView):
+    """Generic class-based view for a list of Properties."""
+    model = Property
+    paginate_by = 10
+
+class PropertyDetailView(generic.DetailView):
+    """Generic class-based detail view for a Properties."""
+    model = Property
+
+class TenantListView(generic.ListView):
+    """Generic class-based view for a list of Properties."""
+    model = Tenant
+    paginate_by = 10
+
+class TenantDetailView(generic.DetailView):
+    """Generic class-based detail view for a Properties."""
+    model = Tenant
+
+class LeaseListView(generic.ListView):
+    """Generic class-based view for a list of Properties."""
+    model = Lease
+    paginate_by = 10
+
+class LeaseDetailView(generic.DetailView):
+    """Generic class-based detail view for a Properties."""
+    model = Lease
 
 class AuthorListView(generic.ListView):
     """Generic class-based list view for a list of authors."""

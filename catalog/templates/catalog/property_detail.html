@@ -1,0 +1,26 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+
+<h1>Property Number: {{ property.property_no }}</h1>
+
+<p><strong>Owner:</strong> {{ property.owner }}</a></p>
+<p><strong>Area:</strong> {{ property.area }}</p>
+<p><strong>Light bill No.:</strong> {{ property.light }}</p> 
+<p><strong>Tax Bill No.:</strong> {{ property.tax }}</p>  
+<p><strong>Location:</strong> {{ property.location }}</p>
+
+<!-- <div style="margin-left:20px;margin-top:20px">
+<h4>Lease</h4>
+
+{% for copy in property.lease_set.all %}
+<hr>
+<p class="{% if copy.status == 'a' %}text-success{% elif copy.status == 'd' %}text-danger{% else %}text-warning{% endif %}">{{ copy.get_status_display }}</p>
+{% if copy.status != 'a' %}<p><strong>Due to be returned:</strong> {{copy.due_back}}</p>{% endif %}
+<p><strong>Imprint:</strong> {{copy.imprint}}</p>
+<p class="text-muted"><strong>Id:</strong> {{copy.id}}</p>
+
+{% endfor %}
+</div> -->
+{% endblock %}
+

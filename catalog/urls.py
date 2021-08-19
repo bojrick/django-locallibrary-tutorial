@@ -6,6 +6,12 @@ from . import views
 urlpatterns = [
     path('', views.index, name='index'),
     path('books/', views.BookListView.as_view(), name='books'),
+    path('properties/', views.PropertyListView.as_view(), name='property'),
+    path('properties/<int:pk>', views.PropertyDetailView.as_view(), name='property-detail'),
+    path('tenants/', views.TenantListView.as_view(), name='tenants'),
+    path('tenants/<int:pk>', views.TenantDetailView.as_view(), name='tenant-detail'),
+    path('lease/', views.LeaseListView.as_view(), name='lease'),
+    path('^lease/(?P<uuid>[\d\-]+)/$', views.LeaseDetailView.as_view(), name='lease-detail'),
     path('book/<int:pk>', views.BookDetailView.as_view(), name='book-detail'),
     path('authors/', views.AuthorListView.as_view(), name='authors'),
     path('author/<int:pk>',

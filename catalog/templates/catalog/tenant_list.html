@@ -1,0 +1,21 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+    <h1>Tenants List</h1>
+
+    {% if tenant_list %}
+    <ul>
+
+      {% for tenant in tenant_list %}
+      <li>
+        <a href="{{ tenant.get_absolute_url }}">{{ tenant.firstName }}</a> ({{tenant.phone}})
+      </li>
+      {% endfor %}
+
+    </ul>
+
+    {% else %}
+      <p>There are no books in the library.</p>
+    {% endif %}       
+{% endblock %}
+
